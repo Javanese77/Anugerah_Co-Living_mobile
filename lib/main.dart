@@ -23,6 +23,22 @@ Widget _fasilitas(IconData icon, String label) {
   );
 }
 
+Widget _kamar(String imagePath, String label) {
+  return Expanded(
+    child: Column(
+      children: [
+        Image.asset(imagePath, width: 250, height: 250),
+        const SizedBox(height: 8),
+        Text(
+          label,
+          textAlign: TextAlign.center,
+          style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w300),
+        ),
+      ],
+    ),
+  );
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -180,7 +196,48 @@ class Homebody extends StatelessWidget {
                       children: [
                         _fasilitas(Icons.wifi, 'Free Wifi 300Mbps'),
                         _fasilitas(Icons.ac_unit_rounded, 'AC Full'),
-                        _fasilitas(Icons.bathtub, 'Kamar mandi dalam'),
+                        _fasilitas(Icons.bathtub, 'Kamar Mandi Dalam'),
+                        _fasilitas(Icons.local_parking, 'Parkir Luas'),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Row(
+                      children: [
+                        // 2. Judul pada bagian fasilitas anugerah co-living
+                        Text(
+                          'Pilihan Kamar Anugerah',
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                          ),
+                        ),
+                        const SizedBox(width: 6),
+                        const Icon(
+                          Icons.bed,
+                          color: Colors.blue,
+                          size: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                  // 3. Fasilitas yang disediakan dan beserta icon dari fasilitas tersebut
+                  Padding(
+                    padding: const EdgeInsets.all(12),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _kamar(
+                          './assets/images/Image_interior_deluxe.jpg',
+                          'Free Wifi 300Mbps',
+                        ),
                       ],
                     ),
                   ),
