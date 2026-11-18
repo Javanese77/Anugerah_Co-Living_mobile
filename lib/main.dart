@@ -1,11 +1,11 @@
-import 'dart:math';
-
 import 'package:material_ui/material_ui.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
   runApp(const MyApp());
 }
+
+
 
 Widget _fasilitas(IconData icon, String label) {
   return Expanded(
@@ -23,18 +23,94 @@ Widget _fasilitas(IconData icon, String label) {
   );
 }
 
-Widget _kamar(String imagePath, String label) {
+Widget _kamarCard(
+  BuildContext context,
+  String nama,
+  String harga,
+  String imagePath,
+) {
+  // Tag Hero dari nama kamar, supaya tiap kartu punya tag BEDA
+  final heroTag = 'kamar-$nama';
+
   return Expanded(
-    child: Column(
-      children: [
-        Image.asset(imagePath, width: 250, height: 250),
-        const SizedBox(height: 8),
-        Text(
-          label,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(fontSize: 12, fontWeight: FontWeight.w300),
+    child: Card(
+      margin: const EdgeInsets.all(8),
+      elevation: 4,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(16),
+        onTap: () {
+          Navigator.push(
+            context,
+            PageRouteBuilder(
+              transitionDuration: const Duration(milliseconds: 600),
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  DetailPage(
+                    nama: nama,
+                    harga: harga,
+                    imagePath: imagePath,
+                    heroTag: heroTag,
+                  ),
+              transitionsBuilder:
+                  (context, animation, secondaryAnimation, child) {
+                    const begin = Offset(0.0, 1.0);
+                    const end = Offset.zero;
+                    const curve = Curves.easeInOut;
+                    var tween = Tween(
+                      begin: begin,
+                      end: end,
+                    ).chain(CurveTween(curve: curve));
+                    return SlideTransition(
+                      position: animation.drive(tween),
+                      child: child,
+                    );
+                  },
+            ),
+          );
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Hero(
+                tag: heroTag,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Image.asset(
+                    imagePath,
+                    width: double.infinity,
+                    height: 100,
+                    fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) => Container(
+                      height: 100,
+                      width: double.infinity,
+                      color: Colors.grey.shade300,
+                      child: const Center(
+                        child: Icon(Icons.image_not_supported, color: Colors.grey),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                nama,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                harga,
+                style: GoogleFonts.poppins(color: Colors.grey, fontSize: 12),
+              ),
+            ],
+          ),
         ),
-      ],
+      ),
     ),
   );
 }
@@ -117,16 +193,17 @@ class Homeheader extends StatelessWidget {
 class Homebody extends StatelessWidget {
   const Homebody({super.key});
 
+  
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.only(top: 135),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 1. Gambar kos dan alamat dari anugerah kos
+              // Gambar kos tammpak depan dan alamat dari anugerah kos
               Align(
                 alignment: Alignment.topCenter,
                 child: ClipRRect(
@@ -171,7 +248,7 @@ class Homebody extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
                       children: [
-                        // 2. Judul pada bagian fasilitas anugerah co-living
+                        // Judul pada bagian fasilitas anugerah co-living
                         Text(
                           'Fasilitas Anugerah Co & Living',
                           style: GoogleFonts.poppins(
@@ -188,7 +265,7 @@ class Homebody extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // 3. Fasilitas yang disediakan dan beserta icon dari fasilitas tersebut
+                  // Fasilitas yang disediakan dan beserta icon dari fasilitas tersebut
                   Padding(
                     padding: const EdgeInsets.all(12),
                     child: Row(
@@ -220,28 +297,259 @@ class Homebody extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 6),
-                        const Icon(
-                          Icons.bed,
-                          color: Colors.blue,
-                          size: 20,
-                        ),
+                        const Icon(Icons.bed, color: Colors.blue, size: 20),
                       ],
                     ),
                   ),
-                  // 3. Fasilitas yang disediakan dan beserta icon dari fasilitas tersebut
                   Padding(
-                    padding: const EdgeInsets.all(12),
+                    padding: const EdgeInsets.symmetric(horizontal: 12),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _kamar(
-                          './assets/images/Image_interior_deluxe.jpg',
-                          'Free Wifi 300Mbps',
+                        _kamarCard(
+                          context,
+                          'Kamar Kos Standart',
+                          'Rp.1.500.000',
+                          'assets/images/image_interior_standart.jpg',
+                        ),
+                        _kamarCard(
+                          context,
+                          'Kamar Kos Deluxe', 
+                          'Rp.2.500.000', 
+                          'assets/images/Image_interior_deluxe.jpg', 
                         ),
                       ],
                     ),
                   ),
                 ],
+              ),
+            ],
+          ),
+        ),
+    );
+  }
+}
+
+// ----------------------------------------------------
+// HALAMAN 2: HALAMAN DETAIL
+// ----------------------------------------------------
+class DetailPage extends StatelessWidget {
+  const DetailPage({
+    super.key,
+    required this.nama,
+    required this.harga,
+    required this.imagePath,
+    required this.heroTag,
+  });
+
+  final String nama;
+  final String harga;
+  final String imagePath;
+  final String heroTag;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Detail Kamar'),
+        backgroundColor: Colors.blueAccent,
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Hero(
+              tag: heroTag,
+              child: Image.asset(
+                imagePath,
+                height: 250,
+                width: double.infinity,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    nama,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    harga,
+                    style: const TextStyle(
+                      fontSize: 20,
+                      color: Colors.blueAccent,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  const Text(
+                    'Kamar nyaman di Anugerah Co & Living dengan fasilitas lengkap untuk menunjang kebutuhan tinggal Anda.',
+                    style: TextStyle(fontSize: 14, height: 1.5),
+                  ),
+                  const SizedBox(height: 30),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blueAccent,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const Pembayaran(),
+                          ),
+                          );
+                      },
+                      child: const Text(
+                        'Continue Payment',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+//Pembayaran page 3
+
+class Pembayaran extends StatefulWidget {
+  const Pembayaran({super.key});
+
+  @override
+  State<Pembayaran> createState() => _PembayaranState();
+}
+
+class _PembayaranState extends State<Pembayaran> {
+  final _formKey = GlobalKey<FormState>();
+  final _namaController = TextEditingController();
+  String _tipeKamar = 'Standard';
+
+  // Harga ditentukan dari tipe kamar (ganti angkanya sesuai _kamarCard kamu)
+  String get _harga {
+    if (_tipeKamar == 'Standard') {
+      return 'Rp 1.500.000 / bulan';
+    } else {
+      return 'Rp 2.500.000 / bulan';
+    }
+  }
+
+  @override
+  void dispose() {
+    _namaController.dispose();
+    super.dispose();
+  }
+
+  void _booking() {
+    if (!_formKey.currentState!.validate()) return;
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) => AlertDialog(
+        title: const Text('Berhasil!'),
+        content: Text(
+          'Kamar $_tipeKamar atas nama ${_namaController.text} berhasil dibooking.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(dialogContext);
+              Navigator.popUntil(context, (route) => route.isFirst);
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Detail Pembayaran'),
+        backgroundColor: Colors.blueAccent,
+      ),
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TextFormField(
+                controller: _namaController,
+                decoration: const InputDecoration(
+                  labelText: 'Nama',
+                  border: OutlineInputBorder(),
+                ),
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return 'Nama tidak boleh kosong';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 16),
+              DropdownButtonFormField<String>(
+                value: _tipeKamar,
+                decoration: const InputDecoration(
+                  labelText: 'Tipe Kamar',
+                  border: OutlineInputBorder(),
+                ),
+                items: const [
+                  DropdownMenuItem(value: 'Standard', child: Text('Standard')),
+                  DropdownMenuItem(value: 'Deluxe', child: Text('Deluxe')),
+                ],
+                onChanged: (value) {
+                  setState(() {
+                    _tipeKamar = value!;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+              Text(
+                'Harga: $_harga',
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Colors.blueAccent,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 30),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueAccent,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  onPressed: _booking,
+                  child: const Text(
+                    'Booking Sekarang',
+                    style: TextStyle(fontSize: 16, color: Colors.white),
+                  ),
+                ),
               ),
             ],
           ),
@@ -257,7 +565,9 @@ class Homepage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Stack(children: [const Homeheader(), const Homebody()]),
+      body: SingleChildScrollView(
+      child: Stack(children: [const Homeheader(), const Homebody()]),
+      ) 
     );
   }
 }

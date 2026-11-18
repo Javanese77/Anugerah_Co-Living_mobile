@@ -63,6 +63,7 @@ flutter:
     - assets/icons/homeLogo.gif
     - assets/images/Image_kos_anugerah_3_lantai.jpg
     - assets/images/Image_interior_deluxe.jpg
+    - assets/images/Image_interior_standart.jpg
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
