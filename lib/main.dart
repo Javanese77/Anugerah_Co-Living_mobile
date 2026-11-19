@@ -5,8 +5,6 @@ void main() {
   runApp(const MyApp());
 }
 
-
-
 Widget _fasilitas(IconData icon, String label) {
   return Expanded(
     child: Column(
@@ -87,7 +85,10 @@ Widget _kamarCard(
                       width: double.infinity,
                       color: Colors.grey.shade300,
                       child: const Center(
-                        child: Icon(Icons.image_not_supported, color: Colors.grey),
+                        child: Icon(
+                          Icons.image_not_supported,
+                          color: Colors.grey,
+                        ),
                       ),
                     ),
                   ),
@@ -193,146 +194,141 @@ class Homeheader extends StatelessWidget {
 class Homebody extends StatelessWidget {
   const Homebody({super.key});
 
-  
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 135),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Gambar kos tammpak depan dan alamat dari anugerah kos
-              Align(
-                alignment: Alignment.topCenter,
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: Stack(
-                    children: [
-                      Image.asset(
-                        'assets/images/Image_kos_anugerah_3_lantai.jpg',
-                        width: 375,
-                        height: 200,
-                        fit: BoxFit.cover,
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        left: 0,
-                        right: 0,
-                        child: Container(
-                          color: Colors.black.withOpacity(0.5),
-                          padding: const EdgeInsets.all(8.0),
-                          child: Text(
-                            'Jl.Affandi no.8 Mrican, Caturtunggal,\nDepok, Sleman, Yogyakarta',
-                            style: GoogleFonts.poppins(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w300,
-                              color: Colors.white,
-                            ),
-                            textAlign: TextAlign.center,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 135),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Gambar kos tammpak depan dan alamat dari anugerah kos
+            Align(
+              alignment: Alignment.topCenter,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(30),
+                child: Stack(
+                  children: [
+                    Image.asset(
+                      'assets/images/Image_kos_anugerah_3_lantai.jpg',
+                      width: 375,
+                      height: 200,
+                      fit: BoxFit.cover,
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        color: Colors.black.withOpacity(0.5),
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          'Jl.Affandi no.8 Mrican, Caturtunggal,\nDepok, Sleman, Yogyakarta',
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w300,
+                            color: Colors.white,
                           ),
+                          textAlign: TextAlign.center,
                         ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    children: [
+                      // Judul pada bagian fasilitas anugerah co-living
+                      Text(
+                        'Fasilitas Anugerah Co & Living',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      const Icon(
+                        Icons.info_outline,
+                        color: Colors.blue,
+                        size: 20,
                       ),
                     ],
                   ),
                 ),
-              ),
+                // Fasilitas yang disediakan dan beserta icon dari fasilitas tersebut
+                Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _fasilitas(Icons.wifi, 'Free Wifi 300Mbps'),
+                      _fasilitas(Icons.ac_unit_rounded, 'AC Full'),
+                      _fasilitas(Icons.bathtub, 'Kamar Mandi Dalam'),
+                      _fasilitas(Icons.local_parking, 'Parkir Luas'),
+                    ],
+                  ),
+                ),
+              ],
+            ),
 
-              const SizedBox(height: 20),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        // Judul pada bagian fasilitas anugerah co-living
-                        Text(
-                          'Fasilitas Anugerah Co & Living',
-                          style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800,
-                          ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Row(
+                    children: [
+                      // 2. Judul pada bagian fasilitas anugerah co-living
+                      Text(
+                        'Pilihan Kamar Anugerah',
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w800,
                         ),
-                        const SizedBox(width: 6),
-                        const Icon(
-                          Icons.info_outline,
-                          color: Colors.blue,
-                          size: 20,
-                        ),
-                      ],
-                    ),
+                      ),
+                      const SizedBox(width: 6),
+                      const Icon(Icons.bed, color: Colors.blue, size: 20),
+                    ],
                   ),
-                  // Fasilitas yang disediakan dan beserta icon dari fasilitas tersebut
-                  Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _fasilitas(Icons.wifi, 'Free Wifi 300Mbps'),
-                        _fasilitas(Icons.ac_unit_rounded, 'AC Full'),
-                        _fasilitas(Icons.bathtub, 'Kamar Mandi Dalam'),
-                        _fasilitas(Icons.local_parking, 'Parkir Luas'),
-                      ],
-                    ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      _kamarCard(
+                        context,
+                        'Kamar Kos Standart',
+                        'Rp.1.500.000',
+                        'assets/images/image_interior_standart.jpg',
+                      ),
+                      _kamarCard(
+                        context,
+                        'Kamar Kos Deluxe',
+                        'Rp.2.500.000',
+                        'assets/images/Image_interior_deluxe.jpg',
+                      ),
+                    ],
                   ),
-                ],
-              ),
-
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Row(
-                      children: [
-                        // 2. Judul pada bagian fasilitas anugerah co-living
-                        Text(
-                          'Pilihan Kamar Anugerah',
-                          style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
-                        const SizedBox(width: 6),
-                        const Icon(Icons.bed, color: Colors.blue, size: 20),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 12),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        _kamarCard(
-                          context,
-                          'Kamar Kos Standart',
-                          'Rp.1.500.000',
-                          'assets/images/image_interior_standart.jpg',
-                        ),
-                        _kamarCard(
-                          context,
-                          'Kamar Kos Deluxe', 
-                          'Rp.2.500.000', 
-                          'assets/images/Image_interior_deluxe.jpg', 
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                ),
+              ],
+            ),
+          ],
         ),
+      ),
     );
   }
 }
 
-// ----------------------------------------------------
-// HALAMAN 2: HALAMAN DETAIL
-// ----------------------------------------------------
 class DetailPage extends StatelessWidget {
   const DetailPage({
     super.key,
@@ -409,7 +405,7 @@ class DetailPage extends StatelessWidget {
                           MaterialPageRoute(
                             builder: (context) => const Pembayaran(),
                           ),
-                          );
+                        );
                       },
                       child: const Text(
                         'Continue Payment',
@@ -441,7 +437,6 @@ class _PembayaranState extends State<Pembayaran> {
   final _namaController = TextEditingController();
   String _tipeKamar = 'Standard';
 
-  // Harga ditentukan dari tipe kamar (ganti angkanya sesuai _kamarCard kamu)
   String get _harga {
     if (_tipeKamar == 'Standard') {
       return 'Rp 1.500.000 / bulan';
@@ -544,7 +539,13 @@ class _PembayaranState extends State<Pembayaran> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
-                  onPressed: _booking,
+                  onPressed: () {
+                    showImagePopup(
+                      context,
+                      'assets/images/qr-pembayaran.png',
+                      onClose: _booking,
+                    );
+                  },
                   child: const Text(
                     'Booking Sekarang',
                     style: TextStyle(fontSize: 16, color: Colors.white),
@@ -559,6 +560,56 @@ class _PembayaranState extends State<Pembayaran> {
   }
 }
 
+
+// pop up image pembayaran dari qris
+
+void showImagePopup(
+  BuildContext context,
+  String imagePath, {
+  required VoidCallback onClose,
+}) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (BuildContext dialogContext) {
+      return Dialog(
+        backgroundColor: Colors.transparent,
+        insetPadding: const EdgeInsets.all(16),
+        child: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(
+                imagePath,
+                fit: BoxFit.contain,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    padding: const EdgeInsets.all(24),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Text('Gagal memuat gambar'),
+                  );
+                },
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                onClose();
+              },
+              icon: const Icon(Icons.close, color: Colors.white, size: 28),
+              style: IconButton.styleFrom(backgroundColor: Colors.black54),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
 class Homepage extends StatelessWidget {
   const Homepage({super.key});
 
@@ -566,8 +617,8 @@ class Homepage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-      child: Stack(children: [const Homeheader(), const Homebody()]),
-      ) 
+        child: Stack(children: [const Homeheader(), const Homebody()]),
+      ),
     );
   }
 }
